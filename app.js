@@ -54,7 +54,7 @@ app.post('/mapUpdate', function(req, res) {
 });
 
 var job = new cronJob({
-  cronTime: '45 33 16 * * *',
+  cronTime: '00 00 24 * * *',
   onTick: function() {
     console.log("cron");
     var url = "https://commons.wikimedia.org/wiki/File:Syrian,_Iraqi,_and_Lebanese_insurgencies.png#filehistory";
@@ -98,7 +98,7 @@ var job = new cronJob({
       for(j=0; j < mapURLs.length; j++){
         mapDateString = mapDates[j].toISOString().replace("T", " ").replace(".000Z", "");
 
-        con.query(`INSERT IGNORE INTO syriaMaps VALUES (\'${mapDateString}\', \'${mapURLs[j].replace("https:", "")}\')`,function(err,rows){
+        con.query('INSERT IGNORE INTO syriaMaps VALUES (\''+ mapDateString +'\', \''+mapURLs[j].replace("https:", "")+'\')',function(err,rows){
           if(err) throw err;
           console.log(rows);
         });
