@@ -1,0 +1,88 @@
+#left{
+  position: fixed;
+  float:left;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+#right{
+  position: absolute;
+  float:right;
+  overflow: scroll;
+  width:100%;
+  margin-left: -8px;
+  margin-top: -8px;
+  margin-bottom: -4px;
+}
+
+#mapZoom{
+  width:27%;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  height:1rem;
+  margin-top: -.1rem;
+  margin-left: -.2rem;
+  padding-left: .4rem;
+  font-family: serif;
+  font-size: 15px;
+}
+
+#mapDate{
+  width:50%;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding-left: 3rem;
+  font-family: serif;
+  font-size: 15px;
+}
+
+#left label{
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+  padding-left: 3rem;
+}
+
+#buttonDiv{
+  margin-top: -.05em;
+}
+
+.dropButton{
+  background-color: rgba(0,0,0,0.5);
+  width:16.9em;
+  border: none;
+  color: white;
+}
+
+.dropButton:hover{
+  background-color: rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+
+.key{
+  display:none;
+  background-color: rgba(0,0,0,0.5);
+  width: 11.6em;
+}
+
+.showKey{
+  display:block;
+}
+
+#keyTable{
+  color: white;
+}
+
+#keyTable tr th:first-child{
+  width: 9em;
+}
+#keyTable tr th{
+  width: 2em;
+}
+
+#keyTable tr td:first-child{
+  width: 9em;
+}
+#keyTable tr td{
+  width: 2em;
+}
