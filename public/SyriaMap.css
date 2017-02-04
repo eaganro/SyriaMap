@@ -89,7 +89,8 @@
 
 #zoomButtons{
   margin-left:11.6em;
-  margin-top: -3.7em;
+  margin-top: -2.55em;
+  position: absolute;
 }
 
 #zoomButtons button{

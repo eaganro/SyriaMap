@@ -22,6 +22,10 @@
         <div><input id="mapDate" type="date" min="2013-04-29"></div>
         <label for="mapZoom">Zoom %</label>
         <input id="mapZoom" type="number" name="zoom" step="50" value="100"></br>
+        <div id="zoomButtons">
+          <button id="zoomIn">+</button></br>
+          <button id="zoomOut">-</button>
+        </div>
         <div id="buttonDiv">
           <button onclick="showKey()" class="dropButton">Show Key</button>
           <div id="keyDrop" class="key">
@@ -72,10 +76,6 @@
               </tbody>
             </table>
           </div>
-        </div>
-        <div id="zoomButtons">
-          <button id="zoomIn">+</button></br>
-          <button id="zoomOut">-</button>
         </div>
       </div>
     </div>
