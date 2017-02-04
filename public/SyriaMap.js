@@ -42,8 +42,8 @@ function changeMap(scrollY){
       storeScrollY = window.pageYOffset;
   }
   storeScrollX = mapContainer.scrollLeft;
-  var data = JSON.stringify({year: date.getFullYear(), month: date.getMonth()+1, day: date.getDate()+1});
-  //urlExtra.date = date;
+  date.setDate(date.getDate()+1);
+  var data = JSON.stringify({year: date.getFullYear(), month: date.getMonth()+1, day: date.getDate()});
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "/mapUpdate", true);
@@ -72,7 +72,6 @@ function showKey(){
 
 function getMapInfo(){
   var url = window.location.href.split("/?")[1];
-  console.log(url);
   if(url){
     var urlSplit = url.split("/");
     var urlSplit2;
@@ -82,7 +81,6 @@ function getMapInfo(){
       var urlSplit2 = urlSplit;
     }
 
-    console.log(urlSplit2);
     dateparts = urlSplit2[0].split('-');
     date = new Date(dateparts[1]+'-'+dateparts[2]+'-'+dateparts[0]);
     zoom = zoomSelector.value = urlSplit2[1];
@@ -93,7 +91,6 @@ function getMapInfo(){
   }else{
     date = new Date();
     changeMap();
-    console.log("no working");
   }
 }
 window.onload = getMapInfo;
