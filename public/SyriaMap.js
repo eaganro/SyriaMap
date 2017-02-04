@@ -71,7 +71,9 @@ function changeMap(scrollY){
       storeScrollY = window.pageYOffset;
   }
   storeScrollX = mapContainer.scrollLeft;
-  date.setDate(date.getDate()+1);
+  date.setHours(23);
+  date.setMinutes(59);
+  date.setSeconds(59);
   var data = JSON.stringify({year: date.getFullYear(), month: date.getMonth()+1, day: date.getDate()});
 
   var xhr = new XMLHttpRequest();
