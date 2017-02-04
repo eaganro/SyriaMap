@@ -45,8 +45,8 @@ app.post('/mapUpdate', function(req, res) {
     if(err) throw err;
 
     console.log('Data received from Db:\n');
-    console.log(rows);
     rows[0].mapDate.setHours(rows[0].mapDate.getHours() - 5);
+    console.log(rows);
     res.send(rows[0]);
   });
   con.end(function(err) {
@@ -115,4 +115,4 @@ var job = new cronJob({
 });
 job.start();
 
-app.listen(3000);
+app.listen(3020);
