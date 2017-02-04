@@ -46,7 +46,7 @@ app.post('/mapUpdate', function(req, res) {
 
     console.log('Data received from Db:\n');
     console.log(rows);
-    res.send(rows[0].mapURL);
+    res.send(rows[0]);
   });
   con.end(function(err) {
 
