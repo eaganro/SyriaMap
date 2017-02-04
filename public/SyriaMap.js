@@ -31,6 +31,9 @@ function dateListener(){
 }
 
 function zoomListener(){
+  if(zoomSelector.value < 100){
+    zoomSelector.value = 100;
+  }
   document.documentElement.style.setProperty(`--zoom`, zoomSelector.value + '%');
   urlExtra.zoom = zoomSelector.value;
   history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly);
