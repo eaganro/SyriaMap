@@ -86,3 +86,25 @@
 #keyTable tr td{
   width: 2em;
 }
+
+#zoomButtons{
+  margin-left:11.6em;
+  margin-top: -3.7em;
+}
+
+#zoomButtons button{
+  background-color: rgba(0,0,0,0.5);
+  height: 2.7em;
+  border: 1px solid black;
+  margin-top: -.04em;
+  color: white;
+  width:2em;
+}
+
+#zoomButtons button:first-of-type{
+  margin-top: 0em;
+}
+
+#zoomButtons button:hover{
+  background-color: rgba(0,0,0,0.7);
+}

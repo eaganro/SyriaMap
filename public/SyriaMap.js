@@ -31,10 +31,20 @@ function dateListener(){
 }
 
 function zoomListener(){
-  document.documentElement.style.setProperty(`--${this.name}`, this.value + '%');
-  urlExtra.zoom = this.value;
+  document.documentElement.style.setProperty(`--zoom`, zoomSelector.value + '%');
+  urlExtra.zoom = zoomSelector.value;
   history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly);
 }
+
+document.getElementById("zoomIn").addEventListener('click', function(){
+  var zoom = zoomSelector.value = parseInt(zoomSelector.value) + 50;
+  zoomListener();
+});
+
+document.getElementById("zoomOut").addEventListener('click', function(){
+  var zoom = zoomSelector.value = parseInt(zoomSelector.value) - 50;
+  zoomListener();
+});
 
 function changeMap(scrollY){
   storeScrollY = scrollY;
@@ -81,9 +91,11 @@ function getMapInfo(){
       var urlSplit2 = urlSplit;
     }
 
-    dateparts = urlSplit2[0].split('-');
+    var dateparts = urlSplit2[0].split('-');
     date = new Date(dateparts[1]+'-'+dateparts[2]+'-'+dateparts[0]);
-    zoom = zoomSelector.value = urlSplit2[1];
+    console.log(dateparts[1]+'-'+dateparts[2]+'-'+dateparts[0]);
+    dateSelector.value = dateparts[0]+'-'+dateparts[1]+'-'+dateparts[2];
+    var zoom = zoomSelector.value = urlSplit2[1];
     document.documentElement.style.setProperty('--zoom', zoom + '%');
     mapContainer.scrollLeft = urlSplit2[2];
     changeMap(urlSplit2[3]);
