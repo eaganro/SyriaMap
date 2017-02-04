@@ -71,6 +71,7 @@ function changeMap(scrollY){
           urlExtra.scrollx = storeScrollX;
           urlExtra.scrolly = storeScrollY;
           history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly);
+          dateSelector.value = urlExtra.date;
       }
   };
   xhr.send(data);
@@ -93,8 +94,6 @@ function getMapInfo(){
 
     var dateparts = urlSplit2[0].split('-');
     date = new Date(dateparts[1]+'-'+dateparts[2]+'-'+dateparts[0]);
-    console.log(dateparts[1]+'-'+dateparts[2]+'-'+dateparts[0]);
-    dateSelector.value = dateparts[0]+'-'+dateparts[1]+'-'+dateparts[2];
     var zoom = zoomSelector.value = urlSplit2[1];
     document.documentElement.style.setProperty('--zoom', zoom + '%');
     mapContainer.scrollLeft = urlSplit2[2];
