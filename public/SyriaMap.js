@@ -42,9 +42,7 @@ function changeMap(scrollY){
       storeScrollY = window.pageYOffset;
   }
   storeScrollX = mapContainer.scrollLeft;
-    console.log(date);
   var data = JSON.stringify({year: date.getFullYear(), month: date.getMonth()+1, day: date.getDate()+1});
-  console.log(data);
   //urlExtra.date = date;
 
   var xhr = new XMLHttpRequest();
@@ -76,14 +74,22 @@ function getMapInfo(){
   var url = window.location.href.split("/?")[1];
   console.log(url);
   if(url){
-    dateparts = url.split("/")[0].split('-');
+    var urlSplit = url.split("/");
+    var urlSplit2;
+    if(urlSplit.length == 1){
+      urlSplit2 = urlSplit[0].split("%2F");
+    } else{
+      var urlSplit2 = urlSplit;
+    }
+
+    console.log(urlSplit2);
+    dateparts = urlSplit2[0].split('-');
     date = new Date(dateparts[1]+'-'+dateparts[2]+'-'+dateparts[0]);
-      console.log(date);
-    zoom = zoomSelector.value = url.split("/")[1];
+    zoom = zoomSelector.value = urlSplit2[1];
     document.documentElement.style.setProperty('--zoom', zoom + '%');
-    mapContainer.scrollLeft = url.split("/")[2];
-    changeMap(url.split("/")[3]);
-    setTimeout(function(){ window.scrollTo(0, url.split("/")[3]); }, 500);
+    mapContainer.scrollLeft = urlSplit2[2];
+    changeMap(urlSplit2[3]);
+    setTimeout(function(){ window.scrollTo(0, urlSplit2[3]); }, 300);
   }else{
     date = new Date();
     changeMap();
