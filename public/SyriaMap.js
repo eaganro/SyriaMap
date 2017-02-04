@@ -8,19 +8,29 @@ var urlExtra = {
   date:"",
   zoom:"",
   scrollx:"",
-  scrolly:""
+  scrolly:"",
+  width: window.innerWidth,
+  height: window.innerHeight
 };
+var oldZoom = 100;
 
 
 dateSelector.addEventListener('change', dateListener);
 zoomSelector.addEventListener('change', zoomListener);
 window.addEventListener("scroll", runOnScroll);
+window.addEventListener("resize", runOnResize);
 mapContainer.addEventListener("scroll", runOnScroll);
 
 function runOnScroll(){
-    urlExtra.scrollx = mapContainer.scrollLeft/map.clientWidth;
-    urlExtra.scrolly = window.pageYOffset/mapContainer.clientHeight;
-    history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly);
+  urlExtra.scrollx = mapContainer.scrollLeft/map.clientWidth;
+  urlExtra.scrolly = window.pageYOffset/mapContainer.clientHeight;
+  history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
+}
+
+function runOnResize(){
+  urlExtra.width = window.innerWidth;
+  urlExtra.height = window.innerHeight;
+  history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
 }
 
 
@@ -34,18 +44,24 @@ function zoomListener(){
   if(zoomSelector.value < 100){
     zoomSelector.value = 100;
   }
-  document.documentElement.style.setProperty(`--zoom`, 1280 * zoomSelector.value/100 + 'px');
+  console.log(window.innerHeight);
+  document.documentElement.style.setProperty(`--zoom`, 80 * zoomSelector.value/100 + 'em');
   urlExtra.zoom = zoomSelector.value;
-  history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly);
+
+  mapContainer.scrollLeft = mapContainer.scrollLeft+500*(zoomSelector.value - oldZoom)/100;
+  window.scrollTo(0, window.pageYOffset+260*(zoomSelector.value - oldZoom)/100);
+
+  history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
+  oldZoom = zoomSelector.value;
 }
 
 document.getElementById("zoomIn").addEventListener('click', function(){
-  var zoom = zoomSelector.value = parseInt(zoomSelector.value) + 50;
+  zoomSelector.value = parseInt(zoomSelector.value) + 50;
   zoomListener();
 });
 
 document.getElementById("zoomOut").addEventListener('click', function(){
-  var zoom = zoomSelector.value = parseInt(zoomSelector.value) - 50;
+  zoomSelector.value = parseInt(zoomSelector.value) - 50;
   zoomListener();
 });
 
@@ -73,7 +89,7 @@ function changeMap(scrollY){
           urlExtra.zoom = zoomSelector.value;
           urlExtra.scrollx = storeScrollX/map.clientWidth;
           urlExtra.scrolly = storeScrollY/mapContainer.clientHeight;
-          history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly);
+          history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
           dateSelector.value = urlExtra.date;
       }
   };
@@ -95,13 +111,15 @@ function getMapInfo(){
       var urlSplit2 = urlSplit;
     }
 
+    var xChange = (urlSplit2[4]-window.innerWidth)/2;
+    var yChange = (urlSplit2[5]-window.innerHeight)/2;
     var dateparts = urlSplit2[0].split('-');
     date = new Date(dateparts[1]+'-'+dateparts[2]+'-'+dateparts[0]);
-    var zoom = zoomSelector.value = urlSplit2[1];
-    document.documentElement.style.setProperty('--zoom', zoom + '%');
-    mapContainer.scrollLeft = urlSplit2[2]*map.clientWidth;
+    zoomSelector.value = urlSplit2[1];
+    zoomListener()
+    mapContainer.scrollLeft = urlSplit2[2]*map.clientWidth + xChange;
     changeMap(urlSplit2[3]);
-    setTimeout(function(){ window.scrollTo(0, urlSplit2[3]*mapContainer.clientHeight); }, 300);
+    setTimeout(function(){ window.scrollTo(0, urlSplit2[3]*mapContainer.clientHeight + yChange); }, 300);
   }else{
     date = new Date();
     changeMap();
