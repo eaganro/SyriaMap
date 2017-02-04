@@ -34,7 +34,7 @@ function zoomListener(){
   if(zoomSelector.value < 100){
     zoomSelector.value = 100;
   }
-  document.documentElement.style.setProperty(`--zoom`, zoomSelector.value + '%');
+  document.documentElement.style.setProperty(`--zoom`, 1280 * zoomSelector.value/100 + 'px');
   urlExtra.zoom = zoomSelector.value;
   history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly);
 }
