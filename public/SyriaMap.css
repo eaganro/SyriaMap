@@ -15,20 +15,20 @@
 }
 
 #mapZoom{
-  width:27%;
+  width:28%;
   background-color: rgba(0,0,0,0.5);
   color: white;
   border: none;
   height:1rem;
   margin-top: -.1rem;
-  margin-left: -.2rem;
+  margin-left: -.25rem;
   padding-left: .4rem;
   font-family: serif;
   font-size: 15px;
 }
 
 #mapDate{
-  width:50%;
+  width:50.5%;
   background-color: rgba(0,0,0,0.5);
   color: white;
   border: none;

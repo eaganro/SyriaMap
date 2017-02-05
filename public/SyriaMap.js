@@ -12,7 +12,7 @@ var urlExtra = {
   width: window.innerWidth,
   height: window.innerHeight
 };
-var oldZoom = 100;
+var oldZoom = 1;
 
 
 dateSelector.addEventListener('change', dateListener);
@@ -41,27 +41,32 @@ function dateListener(){
 }
 
 function zoomListener(){
-  if(zoomSelector.value < 100){
-    zoomSelector.value = 100;
+  if(zoomSelector.value < 1){
+    zoomSelector.value = 1;
   }
-  console.log(window.innerHeight);
-  document.documentElement.style.setProperty(`--zoom`, 80 * zoomSelector.value/100 + 'em');
+  var screenxper = (window.innerWidth/map.clientWidth)*(1+parseFloat(zoomSelector.value) - oldZoom) - (window.innerWidth/map.clientWidth);
+  var zoomscrollx = urlExtra.scrollx * map.clientWidth*(1+parseFloat(zoomSelector.value) - oldZoom) + screenxper;
+
+  var screenyper = (window.innerHeight/mapContainer.clientHeight)*(1+parseFloat(zoomSelector.value) - oldZoom) - (window.innerHeight/mapContainer.clientHeight);
+  var zoomscrolly = urlExtra.scrolly * mapContainer.clientHeight*(1+parseFloat(zoomSelector.value) - oldZoom) + screenyper;
+
+  document.documentElement.style.setProperty(`--zoom`, 80 * (Math.pow(2,zoomSelector.value-1)) + 'em');
   urlExtra.zoom = zoomSelector.value;
 
-  mapContainer.scrollLeft = mapContainer.scrollLeft+500*(zoomSelector.value - oldZoom)/100;
-  window.scrollTo(0, window.pageYOffset+260*(zoomSelector.value - oldZoom)/100);
+  mapContainer.scrollLeft = zoomscrollx;
+  window.scrollTo(0, zoomscrolly);
 
   history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
   oldZoom = zoomSelector.value;
 }
 
 document.getElementById("zoomIn").addEventListener('click', function(){
-  zoomSelector.value = parseInt(zoomSelector.value) + 50;
+  zoomSelector.value = parseFloat(zoomSelector.value) + .25;
   zoomListener();
 });
 
 document.getElementById("zoomOut").addEventListener('click', function(){
-  zoomSelector.value = parseInt(zoomSelector.value) - 50;
+  zoomSelector.value = parseFloat(zoomSelector.value) - .25;
   zoomListener();
 });
 
@@ -121,7 +126,7 @@ function getMapInfo(){
     zoomListener()
     mapContainer.scrollLeft = urlSplit2[2]*map.clientWidth + xChange;
     changeMap(urlSplit2[3]);
-    setTimeout(function(){ window.scrollTo(0, urlSplit2[3]*mapContainer.clientHeight + yChange); }, 300);
+    setTimeout(function(){ window.scrollTo(0, urlSplit2[3]*mapContainer.clientHeight + yChange); }, 350);
   }else{
     date = new Date();
     changeMap();
