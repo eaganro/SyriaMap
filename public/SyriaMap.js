@@ -22,8 +22,8 @@ window.addEventListener("resize", runOnResize);
 mapContainer.addEventListener("scroll", runOnScroll);
 
 function runOnScroll(){
-  urlExtra.scrollx = mapContainer.scrollLeft/map.clientWidth;
-  urlExtra.scrolly = window.pageYOffset/mapContainer.clientHeight;
+  urlExtra.scrollx = mapContainer.scrollLeft/map.width;
+  urlExtra.scrolly = window.pageYOffset/map.height;
   history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
 }
 
@@ -44,15 +44,16 @@ function zoomListener(){
   if(zoomSelector.value < 1){
     zoomSelector.value = 1;
   }
-  var screenxper = (window.innerWidth/map.clientWidth)*(1+parseFloat(zoomSelector.value) - oldZoom) - (window.innerWidth/map.clientWidth);
-  var zoomscrollx = urlExtra.scrollx * map.clientWidth*(1+parseFloat(zoomSelector.value) - oldZoom) + screenxper;
+  var screenxper = (window.innerWidth)*(zoomSelector.value - oldZoom);
+  var zoomscrollx = mapContainer.scrollLeft+mapContainer.scrollLeft*(zoomSelector.value - oldZoom) + screenxper/2;
+  console.log(zoomscrollx);
+  var screenyper = (window.innerHeight)*(zoomSelector.value - oldZoom);
+  var zoomscrolly = window.pageYOffset+window.pageYOffset*(zoomSelector.value - oldZoom) + screenyper/2;
 
-  var screenyper = (window.innerHeight/mapContainer.clientHeight)*(1+parseFloat(zoomSelector.value) - oldZoom) - (window.innerHeight/mapContainer.clientHeight);
-  var zoomscrolly = urlExtra.scrolly * mapContainer.clientHeight*(1+parseFloat(zoomSelector.value) - oldZoom) + screenyper;
-
-  document.documentElement.style.setProperty(`--zoom`, 80 * (Math.pow(2,zoomSelector.value-1)) + 'em');
+  document.documentElement.style.setProperty(`--zoom`, 80* (Math.pow(2,zoomSelector.value-1)) + 'em');
   urlExtra.zoom = zoomSelector.value;
 
+  console.log(zoomscrollx);
   mapContainer.scrollLeft = zoomscrollx;
   window.scrollTo(0, zoomscrolly);
 
@@ -94,8 +95,8 @@ function changeMap(scrollY){
           }          
           urlExtra.date = response.mapDate.substring(0,10);
           urlExtra.zoom = zoomSelector.value;
-          urlExtra.scrollx = storeScrollX/map.clientWidth;
-          urlExtra.scrolly = storeScrollY/mapContainer.clientHeight;
+          urlExtra.scrollx = storeScrollX/map.width;
+          urlExtra.scrolly = storeScrollY/map.height;
           history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
           dateSelector.value = urlExtra.date;
       }
@@ -124,9 +125,9 @@ function getMapInfo(){
     date = new Date(dateparts[1]+'-'+dateparts[2]+'-'+dateparts[0]);
     zoomSelector.value = urlSplit2[1];
     zoomListener()
-    mapContainer.scrollLeft = urlSplit2[2]*map.clientWidth + xChange;
+    mapContainer.scrollLeft = urlSplit2[2]*map.width + xChange;
     changeMap(urlSplit2[3]);
-    setTimeout(function(){ window.scrollTo(0, urlSplit2[3]*mapContainer.clientHeight + yChange); }, 350);
+    setTimeout(function(){ window.scrollTo(0, urlSplit2[3]*map.height + yChange); }, 350);
   }else{
     date = new Date();
     changeMap();

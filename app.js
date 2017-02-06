@@ -58,7 +58,7 @@ var job = new cronJob({
   cronTime: '00 00 24 * * *',
   onTick: function() {
     console.log("cron");
-    var url = "https://commons.wikimedia.org/w/index.php?title=File:Syrian_civil_war.png&offset=&limit=500#filehistory";
+    var url = "https://commons.wikimedia.org/wiki/File:Syrian,_Iraqi,_and_Lebanese_insurgencies.png";
     var mapURLs = [];
     var mapDates = [];
     var mapDateObjs = [];
@@ -75,10 +75,8 @@ var job = new cronJob({
         var mapDate = new Date($(link).html().replace(/,/g, ""));
         console.log("\n");
         console.log(mapDate);
-        if(mapDate < lowDate){
-          mapURLs.push(mapURL);
-          mapDates.push(mapDate);
-        }
+        mapURLs.push(mapURL);
+        mapDates.push(mapDate);
       });
       var con = mysql.createConnection({
         host: settings.host,
