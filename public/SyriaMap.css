@@ -47,14 +47,14 @@
   margin-top: -.05em;
 }
 
-.dropButton{
+#dropButton{
   background-color: rgba(0,0,0,0.5);
   width:16.9em;
   border: none;
   color: white;
 }
 
-.dropButton:hover{
+#dropButton:hover{
   background-color: rgba(0,0,0,0.7);
   cursor: pointer;
 }

@@ -105,6 +105,12 @@ function changeMap(scrollY){
 }
 
 function showKey(){
+  var btn = document.getElementById("dropButton");
+  if(btn.innerHTML == "Show Key"){
+    btn.innerHTML = "Hide Key";
+  } else{
+    btn.innerHTML = "Show Key";
+  }
   document.getElementById("keyDrop").classList.toggle('showKey');
 }
 
