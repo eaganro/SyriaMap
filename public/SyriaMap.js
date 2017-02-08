@@ -22,8 +22,8 @@ window.addEventListener("resize", runOnResize);
 mapContainer.addEventListener("scroll", runOnScroll);
 
 function runOnScroll(){
-  urlExtra.scrollx = mapContainer.scrollLeft/map.width;
-  urlExtra.scrolly = window.pageYOffset/map.height;
+  urlExtra.scrollx = (mapContainer.scrollLeft/map.width).toFixed(4);
+  urlExtra.scrolly = (window.pageYOffset/map.height).toFixed(4);
   history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
 }
 
@@ -95,8 +95,8 @@ function changeMap(scrollY){
           }          
           urlExtra.date = response.mapDate.substring(0,10);
           urlExtra.zoom = zoomSelector.value;
-          urlExtra.scrollx = storeScrollX/map.width;
-          urlExtra.scrolly = storeScrollY/map.height;
+          urlExtra.scrollx = (storeScrollX/map.width).toFixed(4);
+          urlExtra.scrolly = (storeScrollY/map.height).toFixed(4);
           history.pushState({}, "", "/?"+urlExtra.date+'/'+urlExtra.zoom+'/'+urlExtra.scrollx+'/'+urlExtra.scrolly+'/'+urlExtra.width+'/'+urlExtra.height);
           dateSelector.value = urlExtra.date;
       }
