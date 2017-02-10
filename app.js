@@ -58,7 +58,7 @@ var job = new cronJob({
   cronTime: '00 00 24 * * *',
   onTick: function() {
     console.log("cron");
-    var url = "https://commons.wikimedia.org/wiki/File:Syrian,_Iraqi,_and_Lebanese_insurgencies.png";
+    var url = "https://commons.wikimedia.org/wiki/File:Syrian,_Iraqi,_and_Lebanese_insurgencies.png#filehistory";
     var mapURLs = [];
     var mapDates = [];
     var mapDateObjs = [];
@@ -92,6 +92,10 @@ var job = new cronJob({
         }
         console.log('Connection established');
       });
+
+      con.query('DELETE * FROM syriaMaps ORDER BY mapDate DESC LIMIT 1',function(err,rows){
+          if(err) throw err;
+        });
 
       console.log(mapURLs.length);
       for(j=0; j < mapURLs.length; j++){
