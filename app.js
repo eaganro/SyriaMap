@@ -93,7 +93,7 @@ var job = new cronJob({
         console.log('Connection established');
       });
 
-      con.query('DELETE * FROM syriaMaps ORDER BY mapDate DESC LIMIT 1',function(err,rows){
+      con.query('DELETE * FROM syriaMaps ORDER BY mapDate DESC limit 1;',function(err,rows){
           if(err) throw err;
         });
 
@@ -102,7 +102,7 @@ var job = new cronJob({
         mapDates[j].setHours(mapDates[j].getHours() - 5);
         mapDateString = mapDates[j].toISOString().replace("T", " ").replace(".000Z", "");
         
-        con.query('INSERT IGNORE INTO syriaMaps VALUES (\''+ mapDateString +'\', \''+mapURLs[j].replace("https:", "")+'\')',function(err,rows){
+        con.query('INSERT IGNORE INTO syriaMaps VALUES (\''+ mapDateString +'\', \''+mapURLs[j].replace("https:", "")+'\');',function(err,rows){
           if(err) throw err;
           //console.log(rows);
         });
